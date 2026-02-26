@@ -6,4 +6,29 @@ Usaré el algoritmo k-medias para generar grupos y calcular:
     -minimo
     -maximo 
     -varianza
-Para esto aplicare las siguientes tecnicas de paralelización:
+datos de entrada:
+    UINT32 – Number of rows - 04 bytes
+    UINT32 – Number of columns - 04 bytes
+    foreach row:
+        foreach column:
+            REAL32 -Value - 04 bytes
+        end
+    end
+
+Actualización de los cetroides
+    -cada vez que el conjuto datos de un grupo cambie, hay que acrtualizar su centroide
+    todos los nodos deben comunicarse las actualizaciones
+Actualización de los grupos 
+
+Con el genrador de puntos que se nos ha proporcionado se ha generado un lista de muestreo con lo que probar el programa
+
+primera implementación (secuencial sin mejoras de rendimiento)
+para esta implentacion he investigado el algoritmo k-medias y como funciona:
+-primero elegimos k puntos iniciales y las utilizamos como centroides iniciales
+-generamos k grupos asociandole el punto con la media mas cercana
+-recalculamos el centroide de cada grupo 
+-repetimos hasta que se logre la convergencia
+
+
+Mejoras iniciales
+-bucles mejorados 
