@@ -1,0 +1,9 @@
+En este trabajo aplicamos un algoritmo iterativo que analiza
+una gran cantidad de datos en el menor tiempo posible
+Usaré el algoritmo k-medias para generar grupos y calcular:
+    -datos
+    -medias
+    -minimo
+    -maximo 
+    -varianza
+Para esto aplicare las siguientes tecnicas de paralelización:
