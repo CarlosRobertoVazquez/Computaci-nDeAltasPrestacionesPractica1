@@ -4,6 +4,10 @@
 #include <vector>
 #include <cmath>
 #include <limits>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 // numero de grupos que vamos a utilizar
 inline int kGrupos = 3;
@@ -66,7 +70,6 @@ inline bool asignarCentroides(std::vector<punto> &puntos, std::vector<centroide>
             puntos[i].setIdGrupo(grupoGanador);
             cambiado = true;
         }
-        return cambiado; // Se mantiene tu lógica original (retorno prematuro)
     }
     return cambiado;
 }
@@ -94,6 +97,28 @@ inline void recalcularCentroide(std::vector<punto> &puntos, std::vector<centroid
             centroides[i].setY(sumaY[i] / contador[i]);
         }
     }
+}
+
+inline std::vector<punto> archivoApuntos(std::string nombreArchivo){
+    std::ifstream archivo(nombreArchivo, std::ios::binary);
+    std::vector<punto> puntos;
+
+    if (!archivo.is_open())
+    {
+        throw std::runtime_error("No se pudo abrir el archivo"); 
+    }
+    punto p(0,0);
+    std::string linea;
+    while (archivo.read(reinterpret_cast<char*>(&p), sizeof(punto)))
+    {
+        puntos.push_back(p);
+    }
+    archivo.close();
+    if (puntos.empty())
+    {
+        throw std::runtime_error("El archivo está vacio"); 
+    }
+    return puntos;
 }
 
 #endif
