@@ -6,35 +6,34 @@
 //este es main, donde se ejecuta el programa de k-medias
 int main()
 {
-    //indicamos el numero iteraciones del programa que se van realizar para la correcta mediación
+    //numero iteraciones del programa que se van realizar para la correcta medición
     int nIter = 1000;
-    //creamos el vector de centroides, donde se alamacenaran los centros que vayamos calculando
+    //vectores de centroides y puntos, donde se alamacenaran los datos que vayamos calculando
     std::vector<centroide> centroides;
-    //vertemos los datos de los puntos en un vector de punto para poder accder a ellos
     std::vector<punto> puntos = archivoApuntos("salida");
 
-    //guardamos el tiempo cuando se empiezan a realizar las iteraciones y las iniciamos 
+    //t cuando se empiezan a realizar las iteraciones
     clock_t t1 = clock();
     for (int iter = 0; iter < nIter; iter++)
     {
-        //limpiamos el vector de centroides para cada iteración
-        centroides.clear();
-        //creamos el booleano para verificar cuando se estabilizan los centroides de los puntos 
+        //booleano para verificar cuando se estabilizan los centroides de los puntos 
         bool cambios;
-        //iniciamos los centroides de los puntos
+        //inicialización los centroides de los puntos
         asignarCentroidesIniciales(puntos,centroides);
 
-        //iniciamos un do-while para calcular los centroides más optimos
+        //do-while para calcular los centroides más optimos
         do
         {
-            //Recalcular la posición de los centroides
-            recalcularCentroide(puntos, centroides);
             //Asignar cada punto al centroide más cercano
             cambios = asignarCentroides(puntos, centroides);
-
+            //Recalcular la posición de los centroides
+            recalcularCentroide(puntos, centroides);
         } while (cambios); // El bucle se detiene cuando ningún punto cambia de grupo
     }
+
+    //t cuando se acaban de ejecutar las iteraciones
     clock_t t2 = clock();
+    //tiempo tardado por iteración
     double elapsed = (double)(t2 - t1) / nIter;
 
     // Mostrar resultados finales
