@@ -3,34 +3,34 @@
 #include <fstream>
 #include <time.h>
 
+//este es main, donde se ejecuta el programa de k-medias
 int main()
 {
+    //indicamos el numero iteraciones del programa que se van realizar para la correcta mediación
     int nIter = 1000;
+    //creamos el vector de centroides, donde se alamacenaran los centros que vayamos calculando
     std::vector<centroide> centroides;
-    // vertemos los datos de los puntos en un vector de punto para poder accder a ellos
+    //vertemos los datos de los puntos en un vector de punto para poder accder a ellos
     std::vector<punto> puntos = archivoApuntos("salida");
 
+    //guardamos el tiempo cuando se empiezan a realizar las iteraciones y las iniciamos 
     clock_t t1 = clock();
     for (int iter = 0; iter < nIter; iter++)
     {
+        //limpiamos el vector de centroides para cada iteración
         centroides.clear();
+        //creamos el booleano para verificar cuando se estabilizan los centroides de los puntos 
         bool cambios;
-        // elegimos tres puntos aleatorios para que sean los centroides
-        // estos puntos aleatorios se van a elegir partiendo los vectores en k y el que caiga
+        //iniciamos los centroides de los puntos
+        asignarCentroidesIniciales(puntos,centroides);
 
-        int t = puntos.size() / kGrupos;
-        for (int i = 0; i < kGrupos; i++)
-        {
-            centroides.emplace_back(puntos[i * t].getX(), puntos[i * t].getY());
-        }
-
+        //iniciamos un do-while para calcular los centroides más optimos
         do
         {
-            // 1. Asignar cada punto al centroide más cercano
-            cambios = asignarCentroides(puntos, centroides);
-
-            // 2. Recalcular la posición de los centroides basándose en sus nuevos puntos
+            //Recalcular la posición de los centroides
             recalcularCentroide(puntos, centroides);
+            //Asignar cada punto al centroide más cercano
+            cambios = asignarCentroides(puntos, centroides);
 
         } while (cambios); // El bucle se detiene cuando ningún punto cambia de grupo
     }
