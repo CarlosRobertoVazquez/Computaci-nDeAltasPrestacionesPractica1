@@ -1,15 +1,17 @@
 #include "k-medias.hpp"
 #include <iostream>
-#include <fstream>
 #include <time.h>
+#include "mpi.h"
 
 //este es main, donde se ejecuta el programa de k-medias
 int main()
 {
+    //definimos k como constexpr
+    constexpr int K=3;
     //numero iteraciones del programa que se van realizar para la correcta medición
-    int nIter = 1000;
+    int nIter = 100000;
     //vectores de centroides y puntos, donde se alamacenaran los datos que vayamos calculando
-    std::vector<centroide> centroides;
+    std::array<centroide,K> centroides;
     std::vector<punto> puntos = archivoApuntos("salida");
 
     //t cuando se empiezan a realizar las iteraciones
@@ -19,15 +21,15 @@ int main()
         //booleano para verificar cuando se estabilizan los centroides de los puntos 
         bool cambios;
         //inicialización los centroides de los puntos
-        asignarCentroidesIniciales(puntos,centroides);
+        asignarCentroidesIniciales<K>(puntos,centroides);
 
         //do-while para calcular los centroides más optimos
         do
         {
             //Asignar cada punto al centroide más cercano
-            cambios = asignarCentroides(puntos, centroides);
+            cambios = asignarCentroides<K>(puntos, centroides);
             //Recalcular la posición de los centroides
-            recalcularCentroide(puntos, centroides);
+            recalcularCentroide<K>(puntos, centroides);
         } while (cambios); // El bucle se detiene cuando ningún punto cambia de grupo
     }
 
@@ -38,7 +40,7 @@ int main()
 
     // Mostrar resultados finales
     printf("k-medias finalizado en %g segundos\n", elapsed / CLOCKS_PER_SEC);
-    for (int i = 0; i < kGrupos; i++)
+    for (int i = 0; i < K; i++)
     {
         printf("Centroide del grupo %d: %g,%g\n", i, centroides[i].getX(), centroides[i].getY());
     }

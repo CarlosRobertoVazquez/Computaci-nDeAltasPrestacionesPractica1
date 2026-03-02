@@ -29,6 +29,18 @@ para esta implentacion he investigado el algoritmo k-medias y como funciona:
 -recalculamos el centroide de cada grupo 
 -repetimos hasta que se logre la convergencia
 
+con la implementación secuencial el progrma tarda al rededor de 3.29e-06 segundos 
 
-Mejoras iniciales
--bucles mejorados 
+la segunda implementación con optimización de metaprogramacion el progrma tarda 1.62e-06 segundos
+
+Mejoras iniciales con optimización en seria y metaprogramacion:
+    -Parametro en platilla de kGrupos lo que permite loop unrolling
+    -Localidad de datos, centroides se guardan en el Stack maximizando el uso de la cache
+    -Eliminación de operaciones costosas como pow y sqrt
+    -Paso por referencia constante
+
+la segunda implementación con optimización de metaprogramacion el progrma tarda 1.62e-06 segundos
+lo cual implica una mejora del 50.8% aprximadamente
+
+la siguiente optimización se centra en el uso de MPI para paralelizar el algoritmo
+
